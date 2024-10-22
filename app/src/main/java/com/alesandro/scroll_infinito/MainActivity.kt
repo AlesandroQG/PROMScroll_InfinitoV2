@@ -6,7 +6,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
+/**
+ * Clase principal de la actividad
+ *
+ * @author Alesandro Quirós Gobbato
+ */
 class MainActivity : AppCompatActivity() {
+    /**
+     * Función que se ejecuta al crear la actividad
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
