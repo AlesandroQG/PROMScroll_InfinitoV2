@@ -6,6 +6,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.alesandro.scroll_infinito.TaskApplication.Companion.prefs
 
 /**
  * Clase principal de la actividad
@@ -66,6 +67,7 @@ class MainActivity : AppCompatActivity() {
             tasks.add(taskToAdd)
             adapter.notifyDataSetChanged() // Notifica al adaptador que se ha agregado un elemento
             etTask.setText("") // Limpia el campo de texto
+            prefs.saveTasks(tasks)
         }
     }
 
@@ -73,6 +75,7 @@ class MainActivity : AppCompatActivity() {
      * Función que instancia el RecyclerView
      */
     private fun initRecyclerView() {
+        tasks = prefs.getTasks()
         rvTasks.layoutManager = LinearLayoutManager(this)
         adapter = TaskAdapter(tasks) {deleteTask(it)} // it -> posición
         rvTasks.adapter = adapter
@@ -84,6 +87,7 @@ class MainActivity : AppCompatActivity() {
     private fun deleteTask(position:Int) {
         tasks.removeAt(position)
         adapter.notifyDataSetChanged() // Notifica al adaptador que se ha agregado un elemento
+        prefs.saveTasks(tasks)
     }
 
 }

@@ -24,7 +24,7 @@ class Preferences(context: Context) {
     /**
      * Devuelve la lista de tareas almacenada en la base de datos
      */
-    fun getTasks():List<String> {
+    fun getTasks():MutableList<String> {
         return prefs.getStringSet(TASKS, emptySet<String>())?.toMutableList() ?: mutableListOf()
     }
 
