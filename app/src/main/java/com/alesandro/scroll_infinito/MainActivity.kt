@@ -16,6 +16,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var btnAddTask: Button
     lateinit var rvTasks: RecyclerView
 
+    var tasks = mutableListOf<String>()
+
     /**
      * Función que se ejecuta al crear la actividad
      */
@@ -55,7 +57,8 @@ class MainActivity : AppCompatActivity() {
      * Función que agrega una tarea a la lista
      */
     private fun addTask() {
-        val taskToAdd = etTask.text.toString()
+        val taskToAdd:String = etTask.text.toString()
+        tasks.add(taskToAdd)
     }
 
 }
