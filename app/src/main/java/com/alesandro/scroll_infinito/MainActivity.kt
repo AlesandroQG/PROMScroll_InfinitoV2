@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 /**
@@ -15,6 +16,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var etTask: EditText
     lateinit var btnAddTask: Button
     lateinit var rvTasks: RecyclerView
+
+    lateinit var adapter: TaskAdapter
 
     var tasks = mutableListOf<String>()
 
@@ -33,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     private fun initUi() {
         initView()
         initListeners()
+        initRecyclerView()
     }
 
     /**
@@ -59,6 +63,17 @@ class MainActivity : AppCompatActivity() {
     private fun addTask() {
         val taskToAdd:String = etTask.text.toString()
         tasks.add(taskToAdd)
+        adapter.notifyDataSetChanged() // Notifica al adaptador que se ha agregado un elemento
+        etTask.setText("") // Limpia el campo de texto
+    }
+
+    /**
+     * Función que instancia el RecyclerView
+     */
+    private fun initRecyclerView() {
+        rvTasks.layoutManager = LinearLayoutManager(this)
+        adapter = TaskAdapter(tasks)
+        rvTasks.adapter = adapter
     }
 
 }
