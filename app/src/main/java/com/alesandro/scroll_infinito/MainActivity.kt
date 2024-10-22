@@ -62,9 +62,11 @@ class MainActivity : AppCompatActivity() {
      */
     private fun addTask() {
         val taskToAdd:String = etTask.text.toString()
-        tasks.add(taskToAdd)
-        adapter.notifyDataSetChanged() // Notifica al adaptador que se ha agregado un elemento
-        etTask.setText("") // Limpia el campo de texto
+        if (!taskToAdd.isEmpty()) {
+            tasks.add(taskToAdd)
+            adapter.notifyDataSetChanged() // Notifica al adaptador que se ha agregado un elemento
+            etTask.setText("") // Limpia el campo de texto
+        }
     }
 
     /**
