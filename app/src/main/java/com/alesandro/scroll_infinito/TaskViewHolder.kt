@@ -1,6 +1,7 @@
 package com.alesandro.scroll_infinito
 
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -9,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
  */
 class TaskViewHolder(view:View):RecyclerView.ViewHolder(view) {
     private val tvTask = view.findViewById<TextView>(R.id.tvTask)
-    private val ivTaskDone = view.findViewById<TextView>(R.id.ivTaskDone)
+    private val ivTaskDone = view.findViewById<ImageView>(R.id.ivTaskDone)
 
     /**
      * Función que define el texto de la tarea de la lista
