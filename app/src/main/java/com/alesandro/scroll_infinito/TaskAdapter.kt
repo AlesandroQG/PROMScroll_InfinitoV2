@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 /**
  * Clase que conecta el TaskViewHolder con MainActivity
  */
-class TaskAdapter(private val tasks:List<String>):RecyclerView.Adapter<TaskViewHolder>() {
+class TaskAdapter(private val tasks:List<String>, private val onItemDone: (Int) -> Unit):RecyclerView.Adapter<TaskViewHolder>() {
     /**
      * Función que crea un ViewHolder
      */
@@ -25,7 +25,7 @@ class TaskAdapter(private val tasks:List<String>):RecyclerView.Adapter<TaskViewH
      * Carga el item de la posición pasada
      */
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        holder.render(tasks[position])
+        holder.render(tasks[position], onItemDone)
     }
 
 }

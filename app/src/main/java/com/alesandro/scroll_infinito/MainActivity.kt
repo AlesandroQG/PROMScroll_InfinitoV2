@@ -72,8 +72,16 @@ class MainActivity : AppCompatActivity() {
      */
     private fun initRecyclerView() {
         rvTasks.layoutManager = LinearLayoutManager(this)
-        adapter = TaskAdapter(tasks)
+        adapter = TaskAdapter(tasks) {deleteTask(it)} // it -> posición
         rvTasks.adapter = adapter
+    }
+
+    /**
+     * Función que elimina una tarea de la lista
+     */
+    private fun deleteTask(position:Int) {
+        tasks.removeAt(position)
+        adapter.notifyDataSetChanged() // Notifica al adaptador que se ha agregado un elemento
     }
 
 }
