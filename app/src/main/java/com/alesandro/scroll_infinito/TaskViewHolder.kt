@@ -16,7 +16,7 @@ class TaskViewHolder(view:View):RecyclerView.ViewHolder(view) {
      */
     fun render(task:String, onItemDone:(Int) -> Unit) {
         tvTask.text = task
-        ivTaskDone.setOnClickListener {onItemDone(adapterPosition())}
+        ivTaskDone.setOnClickListener {onItemDone(adapterPosition)}
     }
 
 }
