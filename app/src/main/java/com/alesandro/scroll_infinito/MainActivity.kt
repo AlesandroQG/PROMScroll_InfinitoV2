@@ -1,5 +1,6 @@
 package com.alesandro.scroll_infinito
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -7,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alesandro.scroll_infinito.TaskApplication.Companion.prefs
+
 
 /**
  * Clase principal de la actividad
@@ -19,6 +21,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var rvTasks: RecyclerView
 
     lateinit var adapter: TaskAdapter
+
+    lateinit var mediaPlayer: MediaPlayer
 
     var tasks = mutableListOf<String>()
 
@@ -47,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         etTask = findViewById(R.id.etTask)
         btnAddTask = findViewById(R.id.btnAddTask)
         rvTasks = findViewById(R.id.rvTasks)
+        mediaPlayer = MediaPlayer.create(this, R.raw.blow)
     }
 
     /**
@@ -54,6 +59,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun initListeners() {
         btnAddTask.setOnClickListener {
+            mediaPlayer.start()
             addTask()
         }
     }
