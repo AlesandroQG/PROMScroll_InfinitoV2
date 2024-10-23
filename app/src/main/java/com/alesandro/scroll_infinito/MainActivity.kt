@@ -2,6 +2,7 @@ package com.alesandro.scroll_infinito
 
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
@@ -22,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var adapter: TaskAdapter
 
-    lateinit var mediaPlayer: MediaPlayer
+    lateinit var mp: MediaPlayer
 
     var tasks = mutableListOf<String>()
 
@@ -48,10 +49,10 @@ class MainActivity : AppCompatActivity() {
      * Función que instancia la ventana de inicio
      */
     private fun initView() {
+        mp = MediaPlayer.create(this, R.raw.ding) // Carga el sonido
         etTask = findViewById(R.id.etTask)
         btnAddTask = findViewById(R.id.btnAddTask)
         rvTasks = findViewById(R.id.rvTasks)
-        mediaPlayer = MediaPlayer.create(this, R.raw.blow)
     }
 
     /**
@@ -59,7 +60,6 @@ class MainActivity : AppCompatActivity() {
      */
     private fun initListeners() {
         btnAddTask.setOnClickListener {
-            mediaPlayer.start()
             addTask()
         }
     }
@@ -69,8 +69,9 @@ class MainActivity : AppCompatActivity() {
      */
     private fun addTask() {
         val taskToAdd:String = etTask.text.toString()
-        if (!taskToAdd.isEmpty()) {
+        if (!taskToAdd.isEmpty()) { // Solo añadir si existe texto
             tasks.add(taskToAdd)
+            mp.start() // Reproduce el sonido
             adapter.notifyDataSetChanged() // Notifica al adaptador que se ha agregado un elemento
             etTask.setText("") // Limpia el campo de texto
             prefs.saveTasks(tasks)
