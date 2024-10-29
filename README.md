@@ -1,4 +1,4 @@
-# Scroll Infinito
+# Scroll Infinito V2
 ## DM2 PROM 2024-2025
 ### Alesandro Quirós Gobbato
 
