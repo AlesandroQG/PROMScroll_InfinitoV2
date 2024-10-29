@@ -33,6 +33,10 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    // Para acceder a los componentes de XML activamos el viewbinding
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {

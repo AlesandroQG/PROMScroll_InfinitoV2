@@ -2,12 +2,10 @@ package com.alesandro.scroll_infinito
 
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.alesandro.scroll_infinito.TaskApplication.Companion.prefs
+import com.alesandro.scroll_infinito.databinding.ActivityMainBinding
 
 
 /**
@@ -16,9 +14,7 @@ import com.alesandro.scroll_infinito.TaskApplication.Companion.prefs
  * @author Alesandro Quirós Gobbato
  */
 class MainActivity : AppCompatActivity() {
-    lateinit var etTask: EditText
-    lateinit var btnAddTask: Button
-    lateinit var rvTasks: RecyclerView
+    private lateinit var binding: ActivityMainBinding
 
     lateinit var adapter: TaskAdapter
 
@@ -31,7 +27,8 @@ class MainActivity : AppCompatActivity() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         initUi()
     }
 
@@ -49,16 +46,13 @@ class MainActivity : AppCompatActivity() {
      */
     private fun initView() {
         mp = MediaPlayer.create(this, R.raw.ding) // Carga el sonido
-        etTask = findViewById(R.id.etTask)
-        btnAddTask = findViewById(R.id.btnAddTask)
-        rvTasks = findViewById(R.id.rvTasks)
     }
 
     /**
      * Función que instancia los eventos de la interfaz gráfica de la actividad
      */
     private fun initListeners() {
-        btnAddTask.setOnClickListener {
+        binding.btnAddTask.setOnClickListener {
             addTask()
         }
     }
@@ -67,12 +61,12 @@ class MainActivity : AppCompatActivity() {
      * Función que agrega una tarea a la lista
      */
     private fun addTask() {
-        val taskToAdd:String = etTask.text.toString()
+        val taskToAdd:String = binding.etTask.text.toString()
         if (!taskToAdd.isEmpty()) { // Solo añadir si existe texto
             tasks.add(taskToAdd)
             mp.start() // Reproduce el sonido
             adapter.notifyDataSetChanged() // Notifica al adaptador que se ha agregado un elemento
-            etTask.setText("") // Limpia el campo de texto
+            binding.etTask.setText("") // Limpia el campo de texto
             prefs.saveTasks(tasks)
         }
     }
@@ -82,9 +76,9 @@ class MainActivity : AppCompatActivity() {
      */
     private fun initRecyclerView() {
         tasks = prefs.getTasks()
-        rvTasks.layoutManager = LinearLayoutManager(this)
+        binding.rvTasks.layoutManager = LinearLayoutManager(this)
         adapter = TaskAdapter(tasks) {deleteTask(it)} // it -> posición
-        rvTasks.adapter = adapter
+        binding.rvTasks.adapter = adapter
     }
 
     /**
