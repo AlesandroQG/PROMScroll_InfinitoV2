@@ -2,7 +2,6 @@ package com.alesandro.scroll_infinito
 
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
