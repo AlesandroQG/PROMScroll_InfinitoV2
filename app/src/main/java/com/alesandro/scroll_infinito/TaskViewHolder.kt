@@ -9,15 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
  * Clase ViewHolder para el RecyclerView de tareas
  */
 class TaskViewHolder(view:View):RecyclerView.ViewHolder(view) {
-    private val tvTask = view.findViewById<TextView>(R.id.tvTask)
-    private val ivTaskDone = view.findViewById<ImageView>(R.id.ivTaskDone)
-
-    /**
-     * Función que define el texto de la tarea de la lista
-     */
-    fun render(task:String, onItemDone:(Int) -> Unit) {
-        tvTask.text = task
-        ivTaskDone.setOnClickListener {onItemDone(adapterPosition)}
-    }
-
+    val tvTask = view.findViewById<TextView>(R.id.tvTask)
+    val ivTaskDone = view.findViewById<ImageView>(R.id.ivTaskDone)
 }

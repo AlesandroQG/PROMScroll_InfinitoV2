@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.alesandro.scroll_infinito.TaskApplication.Companion.prefs
 
 /**
  * Clase principal de la actividad
@@ -23,9 +22,11 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var adapter: TaskAdapter
 
+    private lateinit var db : TaskDatabaseHelper
+
     lateinit var mp: MediaPlayer
 
-    var tasks = mutableListOf<String>()
+    lateinit var tasks: List<Task>
 
     /**
      * Función que se ejecuta al crear la actividad
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        db = TaskDatabaseHelper(this)
         initUi()
     }
 
@@ -70,13 +72,14 @@ class MainActivity : AppCompatActivity() {
     private fun addTask() {
         val taskToAdd:String = etTask.text.toString()
         if (!taskToAdd.isEmpty()) { // Solo añadir si existe texto
-            tasks.add(taskToAdd)
+            val task = Task(0,taskToAdd)
             mp.start() // Reproduce el sonido
             adapter.notifyDataSetChanged() // Notifica al adaptador que se ha agregado un elemento
             Toast.makeText(this, "Tarea añadida correctamente", Toast.LENGTH_LONG) // Mensaje de confirmación
                 .show()
             etTask.setText("") // Limpia el campo de texto
-            prefs.saveTasks(tasks)
+            db.insertTask(task)
+            adapter.refreshList(db.getAllTasks())
         } else {
             Toast.makeText(this, "No se puede añadir una tarea vacía", Toast.LENGTH_LONG) // Mensaje de error
                 .show()
@@ -87,30 +90,21 @@ class MainActivity : AppCompatActivity() {
      * Función que instancia el RecyclerView
      */
     private fun initRecyclerView() {
-        tasks = prefs.getTasks()
+        tasks = db.getAllTasks()
         rvTasks.layoutManager = LinearLayoutManager(this)
-        adapter = TaskAdapter(tasks) {deleteTask(it)} // it -> posición
+        adapter = TaskAdapter(db.getAllTasks(), this) // it -> posición
         rvTasks.adapter = adapter
         // Configuración de Swipe to Delete para eliminar tareas al deslizar
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
             override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder) = false
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                deleteTask(viewHolder.adapterPosition) // Llama al método para eliminar la tarea en la posición desliz
+                val position = viewHolder.adapterPosition
+                val task = tasks[position]
+                adapter.deleteTask(task) // Llama al método para eliminar la tarea en la posición desliz
             }
         }
         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(rvTasks) // Asigna el helper al RecyclerView
-    }
-
-    /**
-     * Función que elimina una tarea de la lista
-     */
-    private fun deleteTask(position:Int) {
-        tasks.removeAt(position)
-        adapter.notifyDataSetChanged() // Notifica al adaptador que se ha agregado un elemento
-        Toast.makeText(this, "Tarea eliminada correctamente", Toast.LENGTH_LONG) // Mensaje de confirmación
-            .show()
-        prefs.saveTasks(tasks)
     }
 
 }
